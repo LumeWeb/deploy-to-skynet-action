@@ -72,7 +72,7 @@ function prepareUploadOptions() {
     if (!skylink) {
       source = core.getInput("upload-dir");
     }
-    if (source) {
+    if (!skylink && source) {
       skylink = await skynetClient.uploadDirectory(
         source,
         prepareUploadOptions()
