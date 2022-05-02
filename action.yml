@@ -4,9 +4,12 @@ branding:
   icon: "cloud"
   color: "green"
 inputs:
+  upload-file:
+   description: "File to upload"
+   required: false
   upload-dir:
     description: "Directory to upload"
-    required: true
+    required: false
   github-token:
     description: "Github token used for including the skylink url in pull request"
     required: true

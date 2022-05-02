@@ -58,10 +58,31 @@ function prepareUploadOptions() {
       core.getInput("portal-url"),
       prepareClientOptions()
     );
-    const skylink = await skynetClient.uploadDirectory(
-      core.getInput("upload-dir"),
-      prepareUploadOptions()
-    );
+
+    let source = core.getInput("upload-file");
+    let skylink;
+
+      if (source) {
+          skylink = await skynetClient.uploadFile(
+              core.getInput("upload-file"),
+              prepareUploadOptions()
+          );
+      }
+
+      if (!skylink) {
+          source = core.getInput("upload-dir");
+      }
+      if (source) {
+          skylink = await skynetClient.uploadDirectory(
+              source,
+              prepareUploadOptions()
+          );
+      }
+
+      if (!skylink) {
+          throw new Error("Could not upload from 'upload-file' or 'upload-file'")
+      }
+
 
     // generate base32 skylink url from base64 skylink
     const skylinkUrl = await skynetClient.getSkylinkUrl(skylink, {
